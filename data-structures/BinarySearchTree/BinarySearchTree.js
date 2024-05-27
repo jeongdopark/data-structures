@@ -11,6 +11,18 @@ class BinarySearchTree {
     this.root = null;
   }
 
+  getRoot() {
+    return this.root;
+  }
+
+  inOrder(node) {
+    if (node !== null) {
+      this.inOrder(node.left);
+      console.log(node.data);
+      this.inOrder(node.right);
+    }
+  }
+
   insert(data) {
     const newNode = new Node(data);
     if (this.root === null) this.root = newNode;
@@ -40,8 +52,9 @@ class BinarySearchTree {
 }
 
 const BST = new BinarySearchTree();
-BST.insert(1);
-BST.insert(2);
 BST.insert(5);
+BST.insert(2);
+BST.insert(6);
 BST.insert(3);
 console.log(BST);
+BST.inOrder(BST.getRoot());
