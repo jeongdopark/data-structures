@@ -19,6 +19,8 @@ class LinkedList {
 
   clear() {
     this.head = null;
+    this.tail = null;
+    this.count = 0; // count를 초기화합니다.
   }
 
   length() {
@@ -41,88 +43,80 @@ class LinkedList {
       this.head = new_node;
       this.tail = new_node;
     } else {
-      const tail_node = this.tail;
-      tail_node!.next = new_node;
+      this.tail!.next = new_node;
       this.tail = new_node;
     }
     this.count += 1;
   }
 
   delete() {
-    let current_node = this.head;
-    let _count = 1;
-    if (current_node === null) return "no element";
+    if (this.head === null) return "no element";
     if (this.count === 1) {
       this.head = null;
       this.tail = null;
-      this.count -= 1;
-      return;
-    }
-    while (_count <= this.count) {
-      if (_count + 1 === this.count) {
-        current_node!.next = null;
+    } else {
+      let current_node = this.head;
+      // current_node가 null이 아닌지 확인
+      if (current_node !== null) {
+        while (current_node.next !== this.tail) {
+          if (current_node.next === null) break; // next가 null인지 확인
+          current_node = current_node.next;
+        }
+        current_node.next = null;
         this.tail = current_node;
-        this.count -= 1;
-
-        return;
       }
-      current_node = current_node!.next;
-      _count += 1;
     }
+    this.count -= 1;
   }
+
   insertAt(index: number, data: number) {
     if (index > this.count || index < 0) return "범위를 넘었습니다.";
     const new_node = new ElementNode(data);
     if (index === 0) {
       new_node.next = this.head;
       this.head = new_node;
-      this.count += 1;
+      if (this.count === 0) {
+        // 처음 삽입하는 경우 tail도 설정합니다.
+        this.tail = new_node;
+      }
     } else {
       let current_node = this.head;
-      let count = 0;
-      while (true) {
-        if (count + 1 === index) {
-          new_node.next = current_node!.next;
-          current_node!.next = new_node;
-          this.count += 1;
-          return;
-        }
-        count += 1;
+      for (let i = 0; i < index - 1; i++) {
         current_node = current_node!.next;
       }
+      new_node.next = current_node!.next;
+      current_node!.next = new_node;
+      if (new_node.next === null) {
+        this.tail = new_node;
+      }
     }
+    this.count += 1;
   }
 
   deleteAt(index: number) {
-    if (index < 0 || this.count < index) return console.log("범위를 넘었습니다.");
+    if (index < 0 || index >= this.count) {
+      console.log("범위를 넘었습니다.");
+      return null;
+    }
+    let delete_node: ElementNode | null = null;
     if (index === 0) {
-      const delete_node = this.head;
+      delete_node = this.head;
       this.head = this.head!.next;
-      this.count -= 1;
-      return delete_node;
+      if (this.count === 1) {
+        this.tail = null;
+      }
+    } else {
+      let current_node = this.head;
+      for (let i = 0; i < index - 1; i++) {
+        current_node = current_node!.next;
+      }
+      delete_node = current_node!.next;
+      current_node!.next = delete_node!.next;
+      if (delete_node === this.tail) {
+        this.tail = current_node;
+      }
     }
-    let current_node = this.head;
-    for (let i = 0; i < index - 1; i++) {
-      current_node = current_node!.next;
-    }
-    const delete_node = current_node!.next;
-    current_node!.next = delete_node!.next;
     this.count -= 1;
     return delete_node;
   }
 }
-
-const linked_list = new LinkedList();
-linked_list.insert(1);
-linked_list.insert(2);
-linked_list.insert(3);
-linked_list.insert(4);
-console.log(linked_list.length());
-linked_list.delete();
-linked_list.delete();
-linked_list.insert(4);
-console.log(linked_list.insertAt(2, 5));
-console.log(linked_list.deleteAt(2));
-console.log(linked_list.length());
-console.log(linked_list);
-console.log(linked_list.printAll());
