@@ -1,11 +1,16 @@
 class ElementNode {
-  constructor(data) {
+  data: number;
+  next: ElementNode | null;
+  constructor(data: number) {
     this.data = data;
     this.next = null;
   }
 }
 
 class LinkedList {
+  head: ElementNode | null;
+  tail: ElementNode | null;
+  count: number;
   constructor() {
     this.head = null;
     this.tail = null;
@@ -30,14 +35,14 @@ class LinkedList {
     return print_str;
   }
 
-  insert(data) {
+  insert(data: number) {
     const new_node = new ElementNode(data);
-    if (!this.head) {
+    if (this.head === null) {
       this.head = new_node;
       this.tail = new_node;
     } else {
       const tail_node = this.tail;
-      tail_node.next = new_node;
+      tail_node!.next = new_node;
       this.tail = new_node;
     }
     this.count += 1;
@@ -55,17 +60,17 @@ class LinkedList {
     }
     while (_count <= this.count) {
       if (_count + 1 === this.count) {
-        current_node.next = null;
+        current_node!.next = null;
         this.tail = current_node;
         this.count -= 1;
 
         return;
       }
-      current_node = current_node.next;
+      current_node = current_node!.next;
       _count += 1;
     }
   }
-  insertAt(index, data) {
+  insertAt(index: number, data: number) {
     if (index > this.count || index < 0) return "범위를 넘었습니다.";
     const new_node = new ElementNode(data);
     if (index === 0) {
@@ -77,31 +82,31 @@ class LinkedList {
       let count = 0;
       while (true) {
         if (count + 1 === index) {
-          new_node.next = current_node.next;
-          current_node.next = new_node;
+          new_node.next = current_node!.next;
+          current_node!.next = new_node;
           this.count += 1;
           return;
         }
         count += 1;
-        current_node = current_node.next;
+        current_node = current_node!.next;
       }
     }
   }
 
-  deleteAt(index) {
+  deleteAt(index: number) {
     if (index < 0 || this.count < index) return console.log("범위를 넘었습니다.");
     if (index === 0) {
       const delete_node = this.head;
-      this.head = this.head.next;
+      this.head = this.head!.next;
       this.count -= 1;
       return delete_node;
     }
     let current_node = this.head;
     for (let i = 0; i < index - 1; i++) {
-      current_node = current_node.next;
+      current_node = current_node!.next;
     }
-    const delete_node = current_node.next;
-    current_node.next = delete_node.next;
+    const delete_node = current_node!.next;
+    current_node!.next = delete_node!.next;
     this.count -= 1;
     return delete_node;
   }

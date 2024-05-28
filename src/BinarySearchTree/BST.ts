@@ -1,5 +1,8 @@
-class ElementNode {
-  constructor(data) {
+class BSTNode {
+  data: number;
+  left: BSTNode | null;
+  right: BSTNode | null;
+  constructor(data: number) {
     this.data = data;
     this.left = null;
     this.right = null;
@@ -7,11 +10,12 @@ class ElementNode {
 }
 
 class BST {
+  root: BSTNode | null;
   constructor() {
     this.root = null;
   }
 
-  finMaxNode(node) {
+  finMaxNode(node: BSTNode) {
     let _node = node;
     while (_node.right !== null) {
       _node = _node.right;
@@ -19,11 +23,11 @@ class BST {
     return _node;
   }
 
-  remove(data) {
+  remove(data: number) {
     this.root = this.removeNode(this.root, data);
   }
 
-  removeNode(node, key) {
+  removeNode(node: BSTNode | null, key: number) {
     if (node === null) {
       return null;
     }
@@ -62,7 +66,7 @@ class BST {
     return node;
   }
 
-  preOrder(node, result = []) {
+  preOrder(node: BSTNode | null, result: number[] = []) {
     if (node !== null) {
       result.push(node.data);
       this.preOrder(node.left, result);
@@ -71,15 +75,15 @@ class BST {
     return result;
   }
 
-  insert(data) {
-    const newNode = new ElementNode(data);
+  insert(data: number) {
+    const newNode = new BSTNode(data);
     if (this.root === null) {
       this.root = newNode;
       return;
     } else this.insertNode(this.root, newNode);
   }
 
-  insertNode(currentNode, newNode) {
+  insertNode(currentNode: BSTNode, newNode: BSTNode) {
     // 비교 노드가 더 클 경우, 왼쪽으로
     if (currentNode.data > newNode.data) {
       // 왼쪽 비어있을 경우 삽입
