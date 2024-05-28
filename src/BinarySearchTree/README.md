@@ -62,22 +62,3 @@ ex ) `5의 값을 가진 노드를 삽입할 경우`
 
 </br>
 </br>
-
-### 테스트 BST
-
-테스트 실행
-
-root : `npx jest src/BinarySearchTree/BST.test.ts`
-
-<div align="center">
-<img width="431" alt="CleanShot 2024-05-28 at 13 40 47@2x" src="https://github.com/jeongdopark/data-structures/assets/72500346/a5fdc9b6-a29d-4956-a590-11295557148d">
-</div>
-
-### 노드 순회 종류
-
-<div align="center">
-<img width="567" alt="CleanShot 2024-05-28 at 13 49 25@2x" src="https://github.com/jeongdopark/data-structures/assets/72500346/4612af1e-dd15-44c2-8cfc-215eb323f1be">
-</div>
-- pre-order : [50, 35, 30, 15, 34, 40, 38, 55, 52, 51, 53, 60]
-- in-order : [15, 30, 34, 35, 38, 40, 50, 51, 52, 53, 55, 60]
-- post-order : [15, 34, 30, 38, 40, 35, 51, 53, 52, 60, 55, 50]
